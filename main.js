@@ -1,25 +1,34 @@
-let secretNumber = Math.floor(Math.random() * 100) + 1;
+'use strict';
 
-function guessNumber() {
-    let userNumber = prompt("Угадай число от 1 до 100:");
+function DomElement(selector, height, width, bg, fontSize) {
+    this.selector = selector;
+    this.height = height;
+    this.width = width;
+    this.bg = bg;
+    this.fontSize = fontSize;
 
-    if (userNumber === null) {
-        alert("Игра окончена");
-    } else if (isNaN(userNumber) || userNumber < 1 || userNumber > 100) {
-        alert("Введи число от 1 до 100!");
-        guessNumber();
-    } else {
-        userNumber = parseInt(userNumber);
-        if (userNumber < secretNumber) {
-            alert("Загаданное число больше");
-            guessNumber();
-        } else if (userNumber > secretNumber) {
-            alert("Загаданное число меньше");
-            guessNumber();
+    this.createElement = function() {
+        if (this.selector.startsWith('.')) {
+            let div = document.createElement('div');
+            div.classList.add(this.selector.slice(1));
+            div.style.height = this.height;
+            div.style.width = this.width;
+            div.style.backgroundColor = this.bg;
+            div.style.fontSize = this.fontSize;
+            document.body.appendChild(div);
+        } else if (this.selector.startsWith('#')) {
+            let p = document.createElement('p');
+            p.id = this.selector.slice(1);
+            p.style.height = this.height;
+            p.style.width = this.width;
+            p.style.backgroundColor = this.bg;
+            p.style.fontSize = this.fontSize;
+            document.body.appendChild(p);
         } else {
-            alert("Поздравляю, Вы угадали!!!");
+            console.error('Неправильный селектор. Нет данных со значениями "." или "#"');
         }
     }
 }
 
-guessNumber();
+let element = new DomElement('.test', '1000px', '1000px', 'red', '16px');
+element.createElement();
